@@ -1,0 +1,19 @@
+{
+	"manifest_version": 1,
+	"name": "Postie",
+	"version": "0.5",
+
+	"description": "Helps users save Linkedin posts",
+
+	"icons": {
+		"48": "icons/postie-48.png"
+	},
+
+	"content_scripts": [
+		{
+			"matches": ["*://*.linkedin.com/feed/*"],
+			"js": ["postie.js"]
+		}
+	]
+}
+
