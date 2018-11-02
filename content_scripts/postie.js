@@ -29,6 +29,8 @@ $(document).ready(function() {
         let poster_link;
         let poster_meta_name;
         let post_details = "";
+        let article_shared_link = "";
+        let post_images = [];
 
         for (let i=0; i <= feed_children.length; ++i) {
             let curr_obj = get_id_from_feed_children(feed_children[i]);
@@ -55,7 +57,19 @@ $(document).ready(function() {
                 }
                 post_details = post_details.replace(/hashtag/g, "");
 
-            } //else if (curr_obj.hasClass(''))
+            } else if (curr_obj.hasClass('feed-shared-article')) {
+                let particle_child = curr_obj.children().children();
+                article_shared_link = particle_child[0]['href'];
+
+            } else if (curr_obj.hasClass('feed-shared-image')) {
+                let pimages = curr_obj.children().children().children();
+                for (let i = 0; i < pimages.length; ++i) {
+                    let curr_img_obj = get_id_from_feed_children(pimages[i]);
+                    let curr_img_link = curr_img_obj.children().children()
+                                                .children().css('background-image');
+                    post_images.push(curr_img_link);
+                }
+            }
         }
         //console.log(feed_poster_img)
     });
