@@ -7,20 +7,21 @@
 	"homepage_url": "https://github.com/iArunava/Postie/",
 
 	"icons": {
-		"32": "icons/postie-32.png"
+		"32": "icons/postie-24.png"
 	},
 
+	"web_accessible_resources": ["icons/postie-16.png"],
+
 	"browser_action": {
-		"default_icon": "./icons/postie-32.png",
+		"default_icon": "./icons/postie-24.png",
 		"default_title": "Postie",
 		"default_popup": "./popup/postie_popup.html"
 	},
 
 	"content_scripts": [
 		{
-			"matches": ["*://*.linkedin.com/feed/*"],
-			"js": ["postie.js"]
+			"matches": ["*://*.mozilla.org/*", "*://*.linkedin.com/feed/*"],
+			"js": ["./assets/jquery.min.js", "./content_scripts/postie.js"]
 		}
 	]
 }
-
