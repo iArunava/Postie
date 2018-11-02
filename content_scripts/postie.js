@@ -28,10 +28,11 @@ $(document).ready(function() {
         let poster_meta_img_link;
         let poster_link;
         let poster_meta_name;
-        let post_details;
+        let post_details = "";
 
         for (let i=0; i <= feed_children.length; ++i) {
             let curr_obj = get_id_from_feed_children(feed_children[i]);
+
             if (curr_obj.hasClass('feed-shared-actor')) {
                 let poster_meta_child = curr_obj.children();
                 poster_link = get_id_from_feed_children(poster_meta_child[0]).attr('href');
@@ -40,7 +41,21 @@ $(document).ready(function() {
                 poster_meta_img_link = get_id_from_feed_children(poster_meta_child[0]).css('background-image');
                 poster_meta_child = poster_meta_child.children();
                 poster_meta_name = poster_meta_child[0]['firstChild']['data'];
-            }
+
+            } else if (curr_obj.hasClass('feed-shared-update-v2__description')) {
+                let pdetail_child = curr_obj.children().children().children().children();
+                console.log(pdetail_child);
+
+                for (let i = 0; i < pdetail_child.length; ++i) {
+                    if (pdetail_child[i]['nodeName'].toLowerCase() == 'span') {
+                        post_details += pdetail_child[i]['innerText'];
+                     } else if (pdetail_child[i]['nodeName'].toLowerCase() == 'a') {
+                        post_details += pdetail_child[i]['href'];
+                    }
+                }
+                post_details = post_details.replace(/hashtag/g, "");
+
+            } //else if (curr_obj.hasClass(''))
         }
         //console.log(feed_poster_img)
     });
@@ -49,7 +64,7 @@ $(document).ready(function() {
 });
 
 let get_id_from_feed_children = (feed_child) => {
-    return $("#" + feed_child['attributes'].getNamedItem('id').nodeValue);
+    return $("#" + feed_child['id']);
 }
 
 let inject_onclicks_to_controllers = () => {

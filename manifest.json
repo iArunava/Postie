@@ -20,7 +20,7 @@
 
 	"content_scripts": [
 		{
-			"matches": ["*://*.mozilla.org/*", "*://*.linkedin.com/feed/*"],
+			"matches": ["*://*.linkedin.com/feed/*", "*://*.linkedin.com/in/*recent-activity/*"],
 			"js": ["./assets/jquery.min.js", "./content_scripts/postie.js"]
 		}
 	]
