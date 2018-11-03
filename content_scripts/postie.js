@@ -35,11 +35,17 @@ $(document).ready(function() {
 
         console.log(feed_children.length);
         console.log(feed_children);
-        for (let i=0; i < feed_children.length; ++i) {
-            let curr_obj = get_id_from_feed_children(feed_children[i]);
-            if (curr_obj === false) continue;
 
-            if (curr_obj.hasClass('feed-shared-actor')) {
+        let jqobj = true;
+        for (let i=0; i < feed_children.length; ++i) {
+            jqobj = true;
+            let curr_obj = get_id_from_feed_children(feed_children[i]);
+            if (curr_obj == false) {
+                curr_obj = feed_children[i];
+                jqobj = false;
+            }
+
+            if (jqobj !== false && curr_obj.hasClass('feed-shared-actor')) {
                 let poster_meta_child = curr_obj.children();
                 poster_link = get_id_from_feed_children(poster_meta_child[0]).attr('href');
                 poster_meta_child = poster_meta_child.children().children().children()
@@ -48,7 +54,7 @@ $(document).ready(function() {
                 poster_meta_child = poster_meta_child.children();
                 poster_meta_name = poster_meta_child[0]['firstChild']['data'];
 
-            } else if (curr_obj.hasClass('feed-shared-update-v2__description')) {
+            } else if (jqobj !== false && curr_obj.hasClass('feed-shared-update-v2__description')) {
                 let pdetail_child = curr_obj.children().children().children().children();
 
                 for (let i = 0; i < pdetail_child.length; ++i) {
@@ -60,11 +66,12 @@ $(document).ready(function() {
                 }
                 post_details = post_details.replace(/hashtag/g, "");
 
-            } else if (curr_obj.hasClass('feed-shared-article')) {
+            } else if (jqobj === false && curr_obj['classList'].contains('feed-shared-article')) {
+                //TODO
                 let particle_child = curr_obj.children().children();
                 article_shared_link = particle_child[0]['href'];
 
-            } else if (curr_obj.hasClass('feed-shared-image')) {
+            } else if (jqobj !== false && curr_obj.hasClass('feed-shared-image')) {
                 let pimages = curr_obj.children().children().children();
                 for (let i = 0; i < pimages.length; ++i) {
                     let curr_img_obj = get_id_from_feed_children(pimages[i]);
@@ -73,7 +80,7 @@ $(document).ready(function() {
                     post_images.push(curr_img_link);
                 }
 
-            } else if (curr_obj.hasClass('feed-shared-linkedin-video')) {
+            } else if (jqobj !== false && curr_obj.hasClass('feed-shared-linkedin-video')) {
                 let pvid_children = curr_obj.children().children().children().children();
                 post_vid_thumbnail_link = pvid_children.children()[1]['currentSrc'];
                 //TODO get the video link
@@ -92,22 +99,13 @@ $(document).ready(function() {
             pvlink: post_vid_link,
         }
 
-        key = 'linkedin12';
-
-        /*
-        let get_bpage = browser.runtime.getBackgroundPage();
-        get_bpage.then((page) => {
-            console.log('Got bpage');
-        });
-        */
+        // TODO Need to generate keys
+        let key = 'linkedin12';
 
         let saving = browser.storage.local.set({[key]: curr_post_details});
-
         saving.then(() => {
             console.log('Successfully saved post!');
         });
-
-        console.log('YO');
     });
 
     document.body.style.border = "5px solid red";
