@@ -89,6 +89,7 @@ $(document).ready(function() {
 
         console.log('Out of the loop');
         curr_post_details = {
+            furl: feed_url,
             pname: poster_meta_name,
             pimg: poster_meta_img_link,
             plink: poster_link,
