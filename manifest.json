@@ -9,6 +9,13 @@
 	"icons": {
 		"32": "icons/postie-24.png"
 	},
+	
+	"permissions": [
+		"notifications",
+		"alarms",
+		"storage",
+		"unlimitedStorage"
+	],
 
 	"web_accessible_resources": ["icons/postie-16.png"],
 

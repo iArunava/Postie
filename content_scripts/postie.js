@@ -24,16 +24,20 @@ $(document).ready(function() {
         // Getting the rest of the data from the post
         let feed_children = $("#" + feed_id).children();
 
-        console.log(feed_children);
         let poster_meta_img_link;
         let poster_link;
         let poster_meta_name;
         let post_details = "";
         let article_shared_link = "";
         let post_images = [];
+        let post_vid_link = "";
+        let post_vid_thumbnail_link = "";
 
-        for (let i=0; i <= feed_children.length; ++i) {
+        console.log(feed_children.length);
+        console.log(feed_children);
+        for (let i=0; i < feed_children.length; ++i) {
             let curr_obj = get_id_from_feed_children(feed_children[i]);
+            if (curr_obj === false) continue;
 
             if (curr_obj.hasClass('feed-shared-actor')) {
                 let poster_meta_child = curr_obj.children();
@@ -46,7 +50,6 @@ $(document).ready(function() {
 
             } else if (curr_obj.hasClass('feed-shared-update-v2__description')) {
                 let pdetail_child = curr_obj.children().children().children().children();
-                console.log(pdetail_child);
 
                 for (let i = 0; i < pdetail_child.length; ++i) {
                     if (pdetail_child[i]['nodeName'].toLowerCase() == 'span') {
@@ -69,15 +72,49 @@ $(document).ready(function() {
                                                 .children().css('background-image');
                     post_images.push(curr_img_link);
                 }
+
+            } else if (curr_obj.hasClass('feed-shared-linkedin-video')) {
+                let pvid_children = curr_obj.children().children().children().children();
+                post_vid_thumbnail_link = pvid_children.children()[1]['currentSrc'];
+                //TODO get the video link
             }
         }
-        //console.log(feed_poster_img)
+
+        console.log('Out of the loop');
+        curr_post_details = {
+            pname: poster_meta_name,
+            pimg: poster_meta_img_link,
+            plink: poster_link,
+            pd: post_details,
+            alink: article_shared_link,
+            pimgs: post_images,
+            ptnail: post_vid_thumbnail_link,
+            pvlink: post_vid_link,
+        }
+
+        key = 'linkedin12';
+
+        /*
+        let get_bpage = browser.runtime.getBackgroundPage();
+        get_bpage.then((page) => {
+            console.log('Got bpage');
+        });
+        */
+
+        let saving = browser.storage.local.set({[key]: curr_post_details});
+
+        saving.then(() => {
+            console.log('Successfully saved post!');
+        });
+
+        console.log('YO');
     });
 
     document.body.style.border = "5px solid red";
 });
 
 let get_id_from_feed_children = (feed_child) => {
+    if (feed_child['id'] === "") return false;
     return $("#" + feed_child['id']);
 }
 
