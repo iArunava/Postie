@@ -1,5 +1,11 @@
+let brwsr;
+
+const LI = 'linkedin';
+const FF = "firefox";
+
 $(document).ready(function() {
     console.log('ready');
+    brwsr = navigator.sayswho.split(" ")[0].toLowerCase();
     fetch_all_and_upd();
 });
 
@@ -25,8 +31,15 @@ let append_post = (post_obj) => {
 }
 
 let fetch_all_and_upd = () => {
-    let get_posts = browser.storage.local.get();
-    get_posts.then(posts_fetched, on_error);
+    let get_posts;
+    if (brwsr === 'firefox') {
+        get_posts = browser.storage.local.get();
+        get_posts.then(posts_fetched, on_error);
+    } else {
+        let get_posts = chrome.storage.local.get(null, (posts_obj) => {
+            posts_fetched(posts_obj);
+        });
+    }
 }
 
 let media_template = (post_obj) => {
@@ -94,12 +107,18 @@ let url_from_background_src = (bgurl) => {
 }
 
 $("#id--delete-all").click(() => {
-    let clear_all_posts = browser.storage.local.clear();
-    clear_all_posts.then(() => {
-        console.log('All posts Deleted!!')
-        clear_screen();
-    }, on_error);
+    if (brwsr === 'firefox') {
+        let clear_all_posts = browser.storage.local.clear();
+        clear_all_posts.then(after_delete_all_posts, on_error);
+    } else {
+        let clear_all_posts = chrome.storage.local.clear(after_delete_all_posts);
+    }
 });
+
+let after_delete_all_posts = () => {
+    console.log('All posts Deleted!!')
+    clear_screen();
+}
 
 let clear_screen = () => {
     $("#div--linkedin-posts").empty();
@@ -109,6 +128,23 @@ let clear_screen = () => {
 let on_error = () => {
     console.log('Something went wrong!');
 }
+
+/* https://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser */
+navigator.sayswho= (function(){
+    var ua= navigator.userAgent, tem,
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+})();
 
 /*
 $("id--delete-all").click(() => {

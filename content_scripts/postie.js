@@ -1,10 +1,20 @@
 let bars_updated = [];
-let postie_img_url = browser.extension.getURL("icons/postie-16.png");
+let postie_img_url;
+let brwsr;
 
 const LI = 'linkedin';
+const FF = "firefox";
 
 $(document).ready(function() {
     console.log('ready');
+
+    brwsr = navigator.sayswho.split(" ")[0].toLowerCase();
+
+    if (brwsr == FF) {
+        postie_img_url = browser.extension.getURL("icons/postie-16.png");
+    } else {
+        postie_img_url = chrome.extension.getURL("icons/postie-16.png");
+    }
 
     setInterval(() => {
         inject_onclicks_to_controllers();
@@ -113,40 +123,90 @@ $(document).ready(function() {
         // 'p' is for post
         // Next 4 letters is the first letters for the social media platform
         // Next is the unique number key
-        let uid = browser.storage.local.get({[LI] : 0});
+        let uid;
         let key;
         let curr_post_details;
 
-        uid.then((lkey) => {
-            key = 'p-link-' + (lkey[LI] + 1).toString();
-
-            browser.storage.local.set({[LI]: lkey[LI] + 1});
-
-            curr_post_details = {
-                furl: feed_url,
-                pname: poster_meta_name,
-                pimg: poster_meta_img_link,
-                plink: poster_link,
-                pd: post_details,
-                alink: article_shared_link,
-                atnail: article_tnail,
-                aname: aname,
-                asite: asite,
-                pimgs: post_images,
-                ptnail: post_vid_thumbnail_link,
-                pvlink: post_vid_link,
-                key: key,
-            }
-
-            let saving = browser.storage.local.set({[key]: curr_post_details});
-            saving.then(() => {
-                console.log('Successfully saved post!');
+        if (brwsr === FF) {
+            uid = browser.storage.local.get({[LI] : 0});
+            uid.then((lkey) => {
+                save_the_post(lkey, feed_url, poster_meta_img_link, poster_link, poster_meta_name,
+                        post_details, article_shared_link, article_tnail, aname,
+                        asite, post_images, post_vid_link, post_vid_thumbnail_link);
             });
-        });
+        } else {
+            uid = chrome.storage.local.get({[LI] : 0}, (lkey) => {
+                save_the_post(lkey, feed_url, poster_meta_img_link, poster_link, poster_meta_name,
+                        post_details, article_shared_link, article_tnail, aname,
+                        asite, post_images, post_vid_link, post_vid_thumbnail_link);
+            });
+        }
     });
 
     document.body.style.border = "5px solid red";
 });
+
+let save_the_post = (lkey, feed_url, poster_meta_img_link, poster_link, poster_meta_name,
+                        post_details, article_shared_link, article_tnail, aname,
+                        asite, post_images, post_vid_link, post_vid_thumbnail_link) => {
+    console.log(lkey);
+    lkey = lkey[LI];
+
+    key = 'p-link-' + (parseInt(lkey) + 1).toString();
+
+    if (brwsr === FF) {
+        browser.storage.local.set({[LI]: lkey + 1});
+    } else {
+        chrome.storage.local.set({[LI]: lkey + 1});
+    }
+
+
+    curr_post_details = {
+        furl: feed_url,
+        pname: poster_meta_name,
+        pimg: poster_meta_img_link,
+        plink: poster_link,
+        pd: post_details,
+        alink: article_shared_link,
+        atnail: article_tnail,
+        aname: aname,
+        asite: asite,
+        pimgs: post_images,
+        ptnail: post_vid_thumbnail_link,
+        pvlink: post_vid_link,
+        key: key,
+    }
+
+    let saving;
+    if (brwsr === FF) {
+        saving = browser.storage.local.set({[key]: curr_post_details});
+        saving.then(() => {
+            console.log('Successfully saved post!');
+        });
+    } else {
+        saving = chrome.storage.local.set({[key]: curr_post_details}, (val) => {
+            console.log('Successfully saved post!');
+        });
+    }
+
+}
+
+/* https://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser */
+navigator.sayswho= (function(){
+    var ua= navigator.userAgent, tem,
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+})();
 
 let get_id_from_feed_children = (feed_child) => {
     if (feed_child['id'] === "") return false;
