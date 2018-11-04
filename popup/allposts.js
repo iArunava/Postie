@@ -33,6 +33,7 @@ let media_template = (post_obj) => {
     let pimgurl = url_from_background_src(post_obj.pimg);
 
     let template = `
+    <div class="center--content">
     <article id="${post_obj.key}" class="media">
       <figure class="media-left">
         <p class="image is-64x64">
@@ -81,6 +82,8 @@ let media_template = (post_obj) => {
         <button class="delete"></button>
       </div>
     </article>
+    </div>
+    <hr/>
     `;
 
     return template;
@@ -106,3 +109,14 @@ let clear_screen = () => {
 let on_error = () => {
     console.log('Something went wrong!');
 }
+
+/*
+$("id--delete-all").click(() => {
+    swal({
+        title: "Are you sure?",
+        text: "You will not be able to redo it",
+        icon: "warning",
+        buttons: ["Cancel", "Confirm"],
+    })
+});
+*/
