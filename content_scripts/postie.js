@@ -29,6 +29,7 @@ $(document).ready(function() {
         let poster_meta_name;
         let post_details = "";
         let article_shared_link = "";
+        let article_tnail = "";
         let post_images = [];
         let post_vid_link = "";
         let post_vid_thumbnail_link = "";
@@ -88,6 +89,9 @@ $(document).ready(function() {
         }
 
         console.log('Out of the loop');
+
+        let key = 'li-';
+
         curr_post_details = {
             furl: feed_url,
             pname: poster_meta_name,
@@ -95,13 +99,12 @@ $(document).ready(function() {
             plink: poster_link,
             pd: post_details,
             alink: article_shared_link,
+            atnail: article_tnail,
             pimgs: post_images,
             ptnail: post_vid_thumbnail_link,
             pvlink: post_vid_link,
+            key: key,
         }
-
-        // TODO Need to generate keys
-        let key = 'linkedin12';
 
         let saving = browser.storage.local.set({[key]: curr_post_details});
         saving.then(() => {

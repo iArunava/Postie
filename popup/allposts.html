@@ -12,10 +12,77 @@
     <link rel="stylesheet" href="./style.css">
 
   	<script src="../assets/jquery.min.js"></script>
-  	<!--<script src="../assets/popper.min.js"></script>-->
+  	<script src="../assets/font-awesome.js"></script>
   </head>
 
 <body>
-    <h1> Hellow World! </h1>
+
+    <nav class="navbar is-transparent">
+      <div class="navbar-brand">
+        <a class="navbar-item">
+            <img src="../icons/postie-128.png" width="50" height="50">
+            &nbsp;
+            <p class="class--title"> Postie </p>
+        </a>
+        <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div id="navbarExampleTransparentExample" class="navbar-menu">
+
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="#">
+                    Options
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                    <label class="navbar-item checkbox">
+                        <input id="id--linear-blend" class="checkbox--margin" type="checkbox"> Linkedin Posts
+                    </label>
+                    <hr/>
+                    <label class="navbar-item checkbox">
+                        <input id="id--delete-all" class="checkbox--margin" type="checkbox"> Delete all!!
+                    </label>
+
+                </div>
+            </div>
+
+            <div class="navbar-item">
+                <div class="field is-grouped">
+                  <p class="control">
+                    <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="http://localhost:4000" target="_blank" href="https://twitter.com/intent/tweet?text=Check out this addon that saves Linkedin posts  &amp;hashtags=postie &amp;hashtags=linkedin &amp;url=https://github.com/Postie/&amp;via=amArunava">
+                      <span class="icon">
+                        <i class="fab fa-twitter"></i>
+                      </span>
+                      <span>
+                        Tweet
+                      </span>
+                    </a>
+                  </p>
+                  <p class="control">
+                    <a class="button is-primary" href="https://github.com/iArunava/Postie/">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span> Check out the Repository </span>
+                    </a>
+                  </p>
+                </div>
+          </div>
+        </div>
+      </div>
+</nav>
+
+    <div id="div--all-posts" class="columns">
+        <div id="div--linkedin-posts" class="column">
+        </div>
+        <div id="div--twitter-posts" class="column">
+        </div>
+    </div>
+
+
     <script src="./allposts.js"></script>
 </body>
