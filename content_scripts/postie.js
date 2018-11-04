@@ -1,6 +1,8 @@
 let bars_updated = [];
 let postie_img_url = browser.extension.getURL("icons/postie-16.png");
 
+const LI = 'linkedin';
+
 $(document).ready(function() {
     console.log('ready');
 
@@ -93,12 +95,14 @@ $(document).ready(function() {
         // 'p' is for post
         // Next 4 letters is the first letters for the social media platform
         // Next is the unique number key
-        let uid = browser.storage.local.get({'linkedin': 0});
+        let uid = browser.storage.local.get({[LI] : 0});
         let key;
         let curr_post_details;
 
         uid.then((lkey) => {
-            key = 'p-link-' + (lkey['linkedin'] + 1).toString();
+            key = 'p-link-' + (lkey[LI] + 1).toString();
+
+            browser.storage.local.set({[LI]: lkey[LI] + 1});
 
             curr_post_details = {
                 furl: feed_url,
@@ -119,8 +123,6 @@ $(document).ready(function() {
                 console.log('Successfully saved post!');
             });
         });
-
-
     });
 
     document.body.style.border = "5px solid red";

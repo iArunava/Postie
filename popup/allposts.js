@@ -5,16 +5,18 @@ $(document).ready(function() {
 
 let posts_fetched = (obj) => {
     clear_screen();
-    console.log('Starting to populate ')
+
     console.log(obj);
     Object.values(obj).forEach((post_obj) => {
-        let pkey = post_obj.key;
+        console.log(post_obj.hasOwnProperty('key'));
+        if (!post_obj.hasOwnProperty('key')) return;
 
+        let pkey = post_obj.key;
         // Skipping this key if is not a post
         if (pkey[0] !== 'p') return;
 
         append_post(post_obj);
-        console.log("sdsd");
+        console.log("sds4d");
     });
 
 }
@@ -30,8 +32,6 @@ let fetch_all_and_upd = () => {
 
 let media_template = (post_obj) => {
     let pimgurl = url_from_background_src(post_obj.pimg);
-    console.log(typeof(post_obj.pimg))
-    console.log(pimgurl);
 
     let template = `
     <article id="${post_obj.key}" class="media">
