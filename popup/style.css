@@ -43,8 +43,14 @@ Orange -> #FF9800
     margin: 20px;
 }
 
-.center--btn {
+.center--btn,
+.center--content {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+
+
+
+
