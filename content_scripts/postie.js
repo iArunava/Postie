@@ -90,26 +90,37 @@ $(document).ready(function() {
 
         console.log('Out of the loop');
 
-        let key = 'li-';
+        // 'p' is for post
+        // Next 4 letters is the first letters for the social media platform
+        // Next is the unique number key
+        let uid = browser.storage.local.get({'linkedin': 0});
+        let key;
+        let curr_post_details;
 
-        curr_post_details = {
-            furl: feed_url,
-            pname: poster_meta_name,
-            pimg: poster_meta_img_link,
-            plink: poster_link,
-            pd: post_details,
-            alink: article_shared_link,
-            atnail: article_tnail,
-            pimgs: post_images,
-            ptnail: post_vid_thumbnail_link,
-            pvlink: post_vid_link,
-            key: key,
-        }
+        uid.then((lkey) => {
+            key = 'p-link-' + (lkey['linkedin'] + 1).toString();
 
-        let saving = browser.storage.local.set({[key]: curr_post_details});
-        saving.then(() => {
-            console.log('Successfully saved post!');
+            curr_post_details = {
+                furl: feed_url,
+                pname: poster_meta_name,
+                pimg: poster_meta_img_link,
+                plink: poster_link,
+                pd: post_details,
+                alink: article_shared_link,
+                atnail: article_tnail,
+                pimgs: post_images,
+                ptnail: post_vid_thumbnail_link,
+                pvlink: post_vid_link,
+                key: key,
+            }
+
+            let saving = browser.storage.local.set({[key]: curr_post_details});
+            saving.then(() => {
+                console.log('Successfully saved post!');
+            });
         });
+
+
     });
 
     document.body.style.border = "5px solid red";

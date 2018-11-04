@@ -5,11 +5,22 @@ $(document).ready(function() {
 
 let posts_fetched = (obj) => {
     clear_screen();
-
+    console.log('Starting to populate ')
+    console.log(obj);
     Object.values(obj).forEach((post_obj) => {
         let pkey = post_obj.key;
+
+        // Skipping this key if is not a post
+        if (pkey[0] !== 'p') return;
+
+        append_post(post_obj);
+        console.log("sdsd");
     });
 
+}
+
+let append_post = (post_obj) => {
+    $("#div--linkedin-posts").append(media_template(post_obj))
 }
 
 let fetch_all_and_upd = () => {
@@ -17,20 +28,26 @@ let fetch_all_and_upd = () => {
     get_posts.then(posts_fetched, on_error);
 }
 
-let media_template = () => {
+let media_template = (post_obj) => {
+    let pimgurl = url_from_background_src(post_obj.pimg);
+    console.log(typeof(post_obj.pimg))
+    console.log(pimgurl);
+
     let template = `
-    <article class="media">
+    <article id="${post_obj.key}" class="media">
       <figure class="media-left">
         <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/128x128.png">
+          <img src="${pimgurl}">
         </p>
       </figure>
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
+            <strong>${post_obj.pname}</strong> <!--<small>@johnsmith</small> <small>31m</small>-->
             <br>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                ${post_obj.pd}
+            <br>
+          <img src="${url_from_background_src(post_obj.pimgs[0])}">
           </p>
         </div>
         <nav class="level is-mobile">
@@ -56,11 +73,22 @@ let media_template = () => {
     return template;
 }
 
+let url_from_background_src = (bgurl) => {
+    return bgurl.substring(5, bgurl.length-2);
+}
+
+$("#id--delete-all").click(() => {
+    let clear_all_posts = browser.storage.local.clear();
+    clear_all_posts.then(() => {
+        console.log('All posts Deleted!!')
+    }, on_error);
+});
+
 let clear_screen = () => {
     $("#div--linkedin-posts").empty();
     $("#div--twitter-posts").empty();
 }
 
-function on_error = () => {
+let on_error = () => {
     console.log('Something went wrong!');
 }
