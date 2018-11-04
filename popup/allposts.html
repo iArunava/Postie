@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="./style.css">
 
   	<script src="../assets/jquery.min.js"></script>
-  	<script src="../assets/font-awesome.js"></script>
+    <script src="../assets/font-awesome.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
 
 <body>
@@ -39,21 +40,24 @@
                     Options
                 </a>
                 <div class="navbar-dropdown is-boxed">
-                    <label class="navbar-item checkbox">
-                        <input id="id--linear-blend" class="checkbox--margin" type="checkbox"> Linkedin Posts
-                    </label>
+                    <a class="navbar-item">
+                      <label class="checkbox">
+                        <input id="id--linear-blend" type="checkbox"> LinkedIn Posts
+                      </label>
+                    </a>
                     <hr/>
-                    <label class="navbar-item checkbox">
-                        <input id="id--delete-all" class="checkbox--margin" type="checkbox"> Delete all!!
-                    </label>
-
+                    <a class="navbar-item">
+                      <label class="checkbox">
+                        <input id="id--delete-all" type="checkbox"> Delete all!!
+                      </label>
+                    </a>
                 </div>
             </div>
 
             <div class="navbar-item">
-                <div class="field is-grouped">
+                <div class="field is-grouped" >
                   <p class="control">
-                    <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="http://localhost:4000" target="_blank" href="https://twitter.com/intent/tweet?text=Check out this addon that saves Linkedin posts  &amp;hashtags=postie &amp;hashtags=linkedin &amp;url=https://github.com/Postie/&amp;via=amArunava">
+                    <a class="bd-tw-button button" style="background-color:aqua" data-social-network="Twitter" data-social-action="tweet" data-social-target="http://localhost:4000" target="_blank" href="https://twitter.com/intent/tweet?text=Check out this addon that saves Linkedin posts  &amp;hashtags=postie &amp;hashtags=linkedin &amp;url=https://github.com/Postie/&amp;via=amArunava">
                       <span class="icon">
                         <i class="fab fa-twitter"></i>
                       </span>
@@ -62,28 +66,46 @@
                       </span>
                     </a>
                   </p>
+
                   <p class="control">
                     <a class="button is-primary" href="https://github.com/iArunava/Postie/">
                       <span class="icon">
                         <i class="fab fa-github"></i>
                       </span>
-                      <span> Check out the Repository </span>
+                      <span>Repository</span>
                     </a>
                   </p>
-                </div>
+                
+              </div>
           </div>
         </div>
       </div>
 </nav>
 
-    <div id="div--all-posts" class="columns">
-        <div id="div--linkedin-posts" class="column">
-        </div>
-        <div id="div--twitter-posts" class="column">
-        </div>
+    <div id="div--all-posts">
+      <div class="columns">
+        <div id="div--linkedin-posts" class="column center--content">Hello world</div>
+      </div>
+      <div class="columns">
+        <div id="div--twitter-posts" class="column center--content">hi people</div>
+      </div>
+      </div>
     </div>
 
 
+
+    <!--This is the pop-up message when you click the button.Use Jquery to add this part to your button-->
+        <script>
+
+          swal({
+            title: "Are you sure?",
+            text: "You will not be able to redo it",
+            icon: "warning",
+            buttons: ["Cancel", "Confirm"],
+          });
+
+        </script>
+    
     <script src="./allposts.js"></script>
 </body>
-</html>
+
