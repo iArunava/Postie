@@ -52,7 +52,13 @@ let media_template = (post_obj) => {
             }
 
             ${post_obj.alink.length > 0 ?
-              `<img src="${url_from_background_src(post_obj.atnail)}"><br/><` :
+              `
+              <div>
+                  <a href="${post_obj.alink}" target="_blank"><img src="${url_from_background_src(post_obj.atnail)}"></a><br/>
+                  <h3> ${post_obj.aname} </h3>
+                  <h4> ${post_obj.asite} >/h4>
+              </div>
+              ` :
               ``
             }
           </p>
