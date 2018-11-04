@@ -50,6 +50,11 @@ let media_template = (post_obj) => {
               `<img src="${url_from_background_src(post_obj.pimgs[0])}">` :
               ``
             }
+
+            ${post_obj.alink.length > 0 ?
+              `<img src="${url_from_background_src(post_obj.atnail)}"><br/><` :
+              ``
+            }
           </p>
         </div>
         <nav class="level is-mobile">

@@ -32,11 +32,12 @@ $(document).ready(function() {
         let post_details = "";
         let article_shared_link = "";
         let article_tnail = "";
+        let aname = "";
+        let asite = "";
         let post_images = [];
         let post_vid_link = "";
         let post_vid_thumbnail_link = "";
 
-        console.log(feed_children.length);
         console.log(feed_children);
 
         let jqobj = true;
@@ -69,12 +70,27 @@ $(document).ready(function() {
                 }
                 post_details = post_details.replace(/hashtag/g, "");
 
-            } else if (jqobj === false && curr_obj['classList'].contains('feed-shared-article')) {
-                //TODO
+            } else if (jqobj !== false && curr_obj.hasClass('feed-shared-article')) {
                 let particle_child = curr_obj.children().children();
                 article_shared_link = particle_child[0]['href'];
 
-            } else if (jqobj !== false && curr_obj.hasClass('feed-shared-image')) {
+                particle_child = particle_child.children().children();
+                aname = particle_child[1]['children'][0].innerText;
+                asite = particle_child[2].innerText;
+
+                particle_child = particle_child.children().children();
+                article_tnail = get_id_from_feed_children(particle_child[0]).css('background-image');
+            }
+            /*
+            else if (jqobj === false && curr_obj['classList'].contains('feed-shared-article')) {
+                //TODO
+                let particle_child = curr_obj.children().children();
+                console.log(particle_child);
+                article_shared_link = particle_child[0]['href'];
+
+            } */
+
+            else if (jqobj !== false && curr_obj.hasClass('feed-shared-image')) {
                 let pimages = curr_obj.children().children().children();
                 for (let i = 0; i < pimages.length; ++i) {
                     let curr_img_obj = get_id_from_feed_children(pimages[i]);
@@ -88,6 +104,8 @@ $(document).ready(function() {
                 post_vid_thumbnail_link = pvid_children.children()[1]['currentSrc'];
                 //TODO get the video link
             }
+
+            console.log('1 epoch');
         }
 
         console.log('Out of the loop');
@@ -112,6 +130,8 @@ $(document).ready(function() {
                 pd: post_details,
                 alink: article_shared_link,
                 atnail: article_tnail,
+                aname: aname,
+                asite: asite,
                 pimgs: post_images,
                 ptnail: post_vid_thumbnail_link,
                 pvlink: post_vid_link,
