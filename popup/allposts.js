@@ -16,13 +16,12 @@ let posts_fetched = (obj) => {
         if (pkey[0] !== 'p') return;
 
         append_post(post_obj);
-        console.log("sds4d");
     });
 
 }
 
 let append_post = (post_obj) => {
-    $("#div--linkedin-posts").append(media_template(post_obj))
+    $("#div--linkedin-posts").append(media_template(post_obj));
 }
 
 let fetch_all_and_upd = () => {
@@ -47,7 +46,10 @@ let media_template = (post_obj) => {
             <br>
                 ${post_obj.pd}
             <br>
-          <img src="${url_from_background_src(post_obj.pimgs[0])}">
+            ${post_obj.pimgs.length > 0 ?
+              `<img src="${url_from_background_src(post_obj.pimgs[0])}">` :
+              ``
+            }
           </p>
         </div>
         <nav class="level is-mobile">
@@ -81,6 +83,7 @@ $("#id--delete-all").click(() => {
     let clear_all_posts = browser.storage.local.clear();
     clear_all_posts.then(() => {
         console.log('All posts Deleted!!')
+        clear_screen();
     }, on_error);
 });
 
