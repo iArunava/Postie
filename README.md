@@ -1,6 +1,18 @@
 # Postie
-Postie is a WebExtension for Chrome and Firefox that helps you save Linkedin posts.
 
-Chrome Extension: https://chrome.google.com/webstore/detail/postie/nmijjdncbjddjjnebaanchfnjmhcfinj/related
+Postie is an Extension developed using WebExtension that helps users save Linkedin Posts.
 <br/>
-Firefox Addon: https://addons.mozilla.org/en-US/firefox/addon/postie/
+
+## Install
+
+The Extension is currently available for 2 browsers:
+- [Firefox](http://bit.ly/postie_firefox)
+- [Chrome](http://bit.ly/postie_chrome)
+
+## Contribution
+
+Contributions are most welcome!
+
+## License
+
+The application is distributed under MIT License.
