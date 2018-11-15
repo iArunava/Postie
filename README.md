@@ -6,7 +6,7 @@ Postie is an Extension developed using WebExtension that helps users save Linked
 ## Install
 
 The Extension is currently available for 2 browsers:
-- [Firefox](http://bit.ly/postie_firefox)
+- [Firefox](http://bit.ly/postie_firefox) [Disabled by Mozilla | Expected to be re-enabled soon]
 - [Chrome](http://bit.ly/postie_chrome)
 
 ## Contribution
